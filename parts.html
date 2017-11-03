@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="css/weui.css"/>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/config.js"></script>
     <title>配件</title>
 </head>
     <body class="faultInquiry-body-wrapper">
@@ -28,7 +30,7 @@
         </form>
     </div>
     <div class="weui-btn-area">
-        <a href="javascript:;" class="weui-btn weui-btn_blue">立刻查询</a>
+        <a href="partsList.html" class="weui-btn weui-btn_blue" id="parts_sub">立刻查询</a>
     </div>
     <ul class="faultInquiry-list">
         <li>贴图UI同学倒是每次都给xx下的贴图，但是有个问题一直很苦恼，
@@ -40,4 +42,26 @@
 
     </ul>
     </body>
+<script>
+    $(function () {
+        $('#parts_sub').click(function () {
+            var part_code = $('#parts_sub').val();
+            $.ajax({
+                type: 'post',
+                url:api_url + 'partlist/partlist/partlist',
+                async:true,
+                data: {
+                    part_code:part_code
+                },
+                dataType: 'jsonp',
+                success:function (data) {
+                    console.log(data);
+                },
+                error:function () {
+                    
+                }
+            })
+        })
+    })
+</script>
 </html>

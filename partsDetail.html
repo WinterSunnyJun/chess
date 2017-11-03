@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/style.css">
     <script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/js.js"></script>
+    <script src="js/config.js"></script>
 </head>
 <body class="partsDetail-bd-wrapper">
     <div class="top-blue">
@@ -25,7 +26,7 @@
     </div>
     <div class="weui-cells partsDetail-weui-cells-bg mt0 bd-bottom">
         <div class="weui-cell bd-bottom">
-            <div class="weui-cell__hd faultInquiryDetail-title">
+            <div class="weui-cell__hd faultInquiryDetail-title" >
                 故障码:
             </div>
             <div class="weui-cell__bd fcred">
@@ -60,10 +61,10 @@
 
     <div class="weui-cells partsDetail-weui-cells-bg bd-top-bottom">
         <div class="weui-cell bd-bottom">
-            <div class="weui-cell__hd faultInquiryDetail-title ">
+            <div class="weui-cell__hd faultInquiryDetail-title" id="partsD-name">
                 油泵型号:
             </div>
-            <div class="weui-cell__bd fcred">
+            <div class="weui-cell__bd fcred" id="partsD-number">
                 523470-12
             </div>
         </div>
@@ -71,7 +72,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 主机厂:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-factory">
                 一汽
             </div>
         </div>
@@ -79,7 +80,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 油量计量单元:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-oil">
                 1345644
             </div>
         </div>
@@ -87,7 +88,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 高压组件:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-component">
                 545646546
             </div>
         </div>
@@ -95,7 +96,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 齿轮泵（叶片泵）:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-gear">
                 545646546
             </div>
         </div>
@@ -103,7 +104,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 溢流阀:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-flushValve">
                 545646546
             </div>
         </div>
@@ -111,7 +112,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 转速传感器:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-sensor">
                 545646546
             </div>
         </div>
@@ -119,7 +120,7 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 类型:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-type">
                 545646546
             </div>
         </div>
@@ -127,12 +128,43 @@
             <div class="weui-cell__hd faultInquiryDetail-title">
                 替用件:
             </div>
-            <div class="weui-cell__bd">
+            <div class="weui-cell__bd" id="partsD-substituteParts">
 
             </div>
         </div>
     </div>
 
-
+    <script>
+        $(function(){
+            loadAjax();
+            function loadAjax() {
+                $.ajax({
+                    type: "post",
+                    url:"http://cheshengshiapi.demo47.qcw100.com/rest/2.0/partlist/partlist/lpartlist",
+                    async: true,
+                    data: {
+                        id:1
+                    },
+                    dataType: 'jsonp',
+                    success: function (data) {
+                        var lists = data.response_data.lists[0];
+                        console.log(lists);
+                            $('#partsD-name').html(lists.part_name+':');
+                            $('#partsD-number').html(lists.part_code);
+                            $('#partsD-factory').html(lists.factory);
+                            $('#partsD-oil').html(lists.metering);
+                            $('#partsD-component').html(lists.assembly);
+                            $('#partsD-gear').html(lists.gear);
+                            $('#partsD-flushValve').html(lists.overflow);
+                            $('#partsD-sensor').html(lists.speed);
+                            $('#partsD-type').html(lists.type);
+                            $('#partsD-substituteParts').html(lists.replace);
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        })
+    </script>
 </body>
 </html>

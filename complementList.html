@@ -28,8 +28,7 @@
                     <input type="search" class="weui-search-bar__input layout-search-input" id="searchInput" placeholder="请输入查询信息" required="">
                 </div>
             </form>
-            <a href="javascript:;" class="weui-btn_layout weui-btn">查询</a>
-            <!--<a href="javascript:" class="weui-search-bar__cancel-btn" id="searchCancel">取消</a>-->
+            <a href="complementDetail.html" class="weui-btn_layout weui-btn">查询</a>
         </div>
     </div>
     <div class="layoutList-body">
@@ -56,5 +55,30 @@
             </a></li>
         </ul>
     </div>
+    <script>
+        $(function(){
+            loadAjax();
+            function loadAjax() {
+                    $.ajax({
+                        type: "post",
+                        url:"http://cheshengshiapi.demo47.qcw100.com/rest/2.0/supporting/supporting/supporting",
+                        async: true,
+                        data: {
+                            type:111
+                        },
+                        dataType: 'jsonp',
+                        success: function (data) {
+                            console.log(data.response_data.lists);
+                            var lists=data.response_data.lists;
+                            for (var z = 0; z <lists.length; z++) {
+                                $('.layoutList-list').append('<li class="weui-cell vip-arrow"><a href="complementDetail.html"><div class="weui-cell__bd layoutList-item-text">'+ lists[z].part_name +'</div></a></li>')
+                            }
+                        },
+                        error: function () {
+                        }
+                    });
+                }
+        })
+    </script>
 </body>
 </html>
