@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="css/weui.css"/>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/config.js"></script>
     <title>申请会员</title>
 </head>
 <body class="apply-body-wrapper">
@@ -23,21 +25,21 @@
     <div class="weui-cells apply-input">
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请填写您的姓名（必填）">
+                <input id="user-name" class="weui-input" type="text" placeholder="请填写您的姓名（必填）">
             </div>
         </div>
     </div>
     <div class="weui-cells apply-input">
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请填写您的姓名（必填）">
+                <input id="user-tel" class="weui-input" type="text" placeholder="请填写您的手机号（必填）">
             </div>
         </div>
     </div>
     <div class="weui-cells apply-input">
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <input class="weui-input" type="text" placeholder="请填写您的微信号">
+                <input id="uesr-wechat" class="weui-input" type="text" placeholder="请填写您的微信号">
             </div>
         </div>
     </div>
@@ -54,14 +56,52 @@
     <div class="weui-cells apply-textarea">
         <div class="weui-cell">
             <div class="weui-cell__bd">
-                <textarea class="weui-textarea" placeholder="请填写您的街道信息" name="" id="" rows="8"></textarea>
+                <textarea  class="weui-textarea" placeholder="请填写您的街道信息" name="" id="user-address" rows="8"></textarea>
             </div>
         </div>
     </div>
 </div>
-<div class="weui-btn-area apply-btn">
+<div class="weui-btn-area apply-btn" id="register">
     <a href="javascript:;" class="weui-btn weui-btn_blue">提交申请</a>
 </div>
+<script>
+    $(function () {
 
+//        手机号验证
+
+        
+        $('#register').click(function () {
+            var userName = $('#user-name').val();
+            var userTel = $('#user-tel').val();
+            var userWechat = $('#uesr-wechat').val();
+            var userAddress = $('#user-address').html();
+            $.ajax({
+                url:api_url + 'user/user/user?',
+                type: 'post',
+                async: true,
+                dataType:'jsonp',
+                data:{
+                    wechat: 1,
+                    name: 1,
+                    telephone: 1,
+                    receiving: 1
+                },
+                success:function (data) {
+
+                    if(data.response_data.lists == 1){
+                        alert('注册成功');
+                        window.location.href = 'login.html';
+                    }else{
+                        return false;
+                    }
+                }
+            })
+        })
+        
+
+
+
+    })
+</script>
 </body>
 </html>

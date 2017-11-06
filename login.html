@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="css/weui.css"/>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/config.js"></script>
     <title>会员登录</title>
 </head>
 <body class="login-body-wrapper">
@@ -17,7 +19,7 @@
                 <label class="weui-label login-label"><img class="login-input-img" src="img/login-pho.png" alt="24*36"></label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="tel" placeholder="请输入手机号">
+                <input id="login-tel" class="weui-input" type="tel" placeholder="请输入手机号">
             </div>
         </div>
         <div class="input-bottom-line"></div>
@@ -26,16 +28,51 @@
                 <label class="weui-label login-label"><img class="login-input-img" src="img/login-lock.png" alt="24*36"></label>
             </div>
             <div class="weui-cell__bd">
-                <input class="weui-input" type="number" placeholder="请输入验证码">
+                <input id="login-code" class="weui-input" type="" placeholder="请输入验证码">
             </div>
             <div class="weui-cell__ft login-yzm">
                 <img class="weui-vcode-img" src="img/yzm.png">
             </div>
         </div>
     </div>
-    <div class="weui-btn-area login-btn">
+    <div class="weui-btn-area login-btn" id="login-btn">
         <a href="javascript:;" class="weui-btn weui-btn_blue">登录</a>
     </div>
     <a href="applyVip.html" class="login-signUp">注册账号</a>
+
+    <script>
+        //获取手机验证码图片
+        function getCode(){
+            $('.login-yzm img').attr('src',api_url+'user/login/do_code'+Math.random())
+        }
+        getCode()
+        $('.login-yzm img').click(function(){
+            getCode()
+        })
+
+        $('#login-btn').click(function () {
+            var userTel = $('#login-tel').val();
+            var userCode = $('#login-code').val();
+
+            $.ajax({
+                url: api_url + 'user/login/login?',
+                type: 'post',
+                async: true,
+                dataType:'jsonp',
+                data:{
+                    telephone: 1,
+                    do_code: 'gsse'
+                },
+                success:function (data) {
+                    if(data.error_code){
+                        $('#login-tel').prop('placeholder','该用户不存在');
+                    }else{
+                        window.location.href = 'parts.html';
+                    }
+                }
+            })
+        })
+
+    </script>
 </body>
 </html>
